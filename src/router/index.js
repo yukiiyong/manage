@@ -46,6 +46,7 @@ export default new Router({
       name: '数据管理',
       iconCls: 'el-icon-message',
       component: Main,
+      redirect: {path: '/user'},
       children: [
         { path: '/user', name: '用户列表', component: UserList},
         {path: '/admin', name: '管理员列表', component: AdminList}

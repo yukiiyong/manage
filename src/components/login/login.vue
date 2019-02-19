@@ -37,18 +37,27 @@
         this.$refs.loginForm.validate((valid) => {
           if(valid) {
             let loginParam = {username: this.loginForm.userName, password: this.loginForm.pwd}
-              requestLogin(loginParam).then(data => {
-                console.log(data)
-                if(data && data.success) {
-                  sessionStorage.setItem('user',JSON.stringify(loginParam))
-                  this.$router.push({path: '/'})
-                } else {
-                  this.$message({
-                    message: 'login err',
-                    type: 'error'
-                  })
-                }
-              })
+            let role
+            let username = loginParam.username
+            if(loginParam.username === 'admin') {
+              role="超级管理员"
+            } else {
+              role="管理员"
+            }
+            requestLogin(loginParam).then(data => {                
+              if(data && data.success) {        
+                let user = data.data
+                user.username = username
+                user.role = role
+                sessionStorage.setItem('user',JSON.stringify(data.data))
+                this.$router.push({path: '/'})
+              } else {
+                this.$message({
+                  message: 'login err',
+                  type: 'error'
+                })
+              }
+            })
           }
         })
       }

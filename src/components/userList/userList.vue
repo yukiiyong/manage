@@ -23,7 +23,7 @@
       <el-table-column label="地址" prop="addr" width="180"></el-table-column>
       <el-table-column label="操作" width="150" >
         <template scope="scope" >
-          <el-button size="small" type="primary" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+          <el-button size="small" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
           <el-button size="small" type="danger" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -98,6 +98,7 @@
   export default {
     data() {
       return {
+        user: {},
         users: [],
         total: 0,
         page: 1,
@@ -117,6 +118,7 @@
     },
     mounted() {
       this.getUsers()
+      this.user = JSON.parse(sessionStorage.getItem('user')) 
     },
     methods: {
       formatSex(row) {
@@ -157,6 +159,13 @@
       handleDel(index,row) {
         this.$confirm('确认删除该项记录吗？','提示',{type: 'warning'})
           .then(() => {
+            if(this.user.role !== '超级管理员') {
+              this.$message({
+                type: 'danger',
+                message: '权限不足'
+              })
+              return
+            }
             this.listLoading = true
             let param = {id: row.id}
             removeUser(param).then((res) => {

@@ -17,12 +17,12 @@ router.beforeEach((to, from, next) => {
     return
   }
   let user = JSON.parse(sessionStorage.getItem('user'))
-  next()
-  // if(!user) {
-  //   next({path: '/login'})
-  // } else {
-  //   next()
-  // }
+  // next()
+  if(!user) {
+    next({path: '/login'})
+  } else {
+    next()
+  }
 })
 
 /* eslint-disable no-new */

@@ -15,7 +15,7 @@
       </el-col>
       <el-col  :span="4" class="userinfo" >
         <el-dropdown trigger="hover" >
-          <span class="el-dropdown-link userinfo-inner"><img :src="userAvatarUrl">{{userName || 'admin'}},欢迎您</span>
+          <span class="el-dropdown-link userinfo-inner"><img :src="user.userAvatar">{{user.username}},欢迎您</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item >设置</el-dropdown-item>
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
@@ -25,7 +25,7 @@
     </el-col>
     <el-col :span="24" class="main">
       <aside class="menu" :class="collapsed? 'menu-collapse': ''" >
-        <el-menu :default-active="$route.path" class="menu-class" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="collapsed" router>
+        <el-menu :default-active="$route.path" class="menu-class" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="collapsed" router unique-opened>
          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
            <el-submenu :index="index+ ''" v-if="!item.leaf" >
              <template slot="title"><i class="menu-icon" :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
@@ -61,15 +61,14 @@
       return {
         sysName: '后台管理系统',
         collapsed: false,
-        userName: 'admin',
-        userAvatarUrl: ''
+        user: {}
       }
     },
-    created() {
+    mounted() {
       let user = JSON.parse(sessionStorage.getItem('user'))
+      console.log(user)
       if(user && user.accessToken) {
-        this.userName = user.username
-        this.userAvatarUrl = user.userAvatar 
+        this.user = Object.assign({}, user)
       }
     },
     methods: {
