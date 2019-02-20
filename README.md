@@ -1,6 +1,15 @@
-# management
+### 简介
+一个使用Vue和element-ui的后台管理系统
+### 功能
+>用户列表浏览
+>修改用户信息
+>新增用户
+>echarts图表查看 
 
+### management
 > A Vue.js project
+
+###屏幕截图
 
 ## Build Setup
 
