@@ -134,11 +134,9 @@
 </script>
 <style scoped>
   #chartBar {
-    width: 100%;
     height: 400px;
   }
   #chartPie {
-    width: 100%;
     height: 400px;
   }
 </style>
