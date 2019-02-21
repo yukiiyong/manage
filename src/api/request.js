@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {api} from './config'
 
-export const requestLogin = param => { return axios.post(api.base + api.login, param).then(res => res.data)}
+export const requestLogin = param => { return axios.get(api.base + api.login, param).then(res => res.data)}
 
 export const getUserList = param => { return axios.get(api.base + api.userList, param).then(res => res.data)}
 
