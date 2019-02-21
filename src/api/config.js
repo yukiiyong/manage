@@ -3,8 +3,8 @@ export const header = {
   method: 'POST',
   headers: {
     'Accept': 'application/json',
-    'Content-Type':'application/json',
-    'Connection': 'close'
+    'Content-Type':'application/json'
+    // 'Connection': 'close'
   }
 }
 
