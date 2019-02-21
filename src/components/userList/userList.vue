@@ -26,7 +26,7 @@
           <el-button size="small" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
           <el-button size="small" type="danger" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column>  
     </el-table>
     <el-col :span="24" class="toolbar">
       <el-button type="danger" :disabled="sels.length===0" @click="batchRemove">批量删除</el-button>
