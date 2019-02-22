@@ -13,6 +13,7 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
+    // vendors: ['font-awesome-loader'],
     app: './src/main.js'
   },
   output: {
