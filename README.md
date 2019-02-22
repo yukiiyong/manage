@@ -1,16 +1,21 @@
 ### 简介
-一个使用Vue和element-ui的后台管理系统
+一个使用Vue和element-ui的后台管理系统，数据均为mock数据
+> 地址：http://yukiiyong.github.io/manage/dist/
 ### 功能
 >用户列表浏览
+
 >修改用户信息
+
 >新增用户
+
 >echarts图表查看 
 
-### management
-> A Vue.js project
+##### 其中，如果新增用户的用户名和用户列表的重复，将会报“用户已存在”，且不会重复添加用户
+##### 对用户列表的用户进行删除的时候，如果此时登录的不是超级管理员，则不会进行删除操作
 
-###屏幕截图
+> 普通账户：123456 密码 123456 超级账户 admin 密码 123456
 
+> todo ：解决font-awesome图标不显示问题
 ## Build Setup
 
 ``` bash
