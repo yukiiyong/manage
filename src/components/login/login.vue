@@ -45,15 +45,20 @@
               role="管理员"
             }
             requestLogin(loginParam).then(data => {                
-              if(data && data.success) {        
+              if(data && data.success) {  
+                console.log(data)      
                 let user = data.data
                 user.username = username
                 user.role = role
                 sessionStorage.setItem('user',JSON.stringify(data.data))
+                this.$message({
+                  type: 'success',
+                  message: data.msg
+                })
                 this.$router.push({path: '/'})
               } else {
                 this.$message({
-                  message: 'login err',
+                  message: data.msg,
                   type: 'error'
                 })
               }

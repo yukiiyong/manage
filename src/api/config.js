@@ -9,7 +9,8 @@ export const header = {
 }
 
 export const api = {
-  base: 'http://rap2api.taobao.org/app/mock/119360/',
+  base1: 'http://rap2api.taobao.org/app/mock/119360/',
+  base: '/',
   login: 'api/login',
   userList: 'user/list',
   adminList: 'user/admin',

@@ -17,7 +17,7 @@
       <el-table-column style="width:25%" prop="role" label="权限" ></el-table-column>
     </el-table>
     <el-col :span="24" class="toolbar" >
-      <el-pagination layout="prev,pager,next" background :page-size="10" :total="total" :current-page="page" @current-change="handleCurrentChange" ></el-pagination>
+      <el-pagination layout="prev,pager,next" background :page-size="15" :total="total" :current-page="page" @current-change="handleCurrentChange" ></el-pagination>
     </el-col> 
   </section>
 </template>
@@ -36,7 +36,6 @@
     },
     mounted() {
       this.getAdminList()
-      console.log(this.devWidth)
     },
     computed: {
       devWidth() {
@@ -52,9 +51,9 @@
     },
     methods: {
       getAdminList(name) {
-        const nameParam = name || ''
+        let nameParam = name || ''
         let param = {
-          name: name,
+          name: nameParam,
           page: this.page
         }
         this.listLoading = true

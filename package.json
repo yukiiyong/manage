@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "axios-mock-adapter": "^1.16.0",
     "echarts": "^4.1.0",
     "element-ui": "^2.4.11",
     "font-awesome": "^4.7.0",
+    "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.2",

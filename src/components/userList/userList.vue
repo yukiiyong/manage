@@ -15,7 +15,7 @@
     </el-col>
     <el-table :data="users" v-loading="listLoading" @selection-change="handleSelsChange" style="width: 100%;">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column type="index" width="60"></el-table-column>
+      <el-table-column type="index" width="60" :index="(page-1)*15+1"></el-table-column>
       <el-table-column label="姓名" prop="name" width="120"></el-table-column>
       <el-table-column label="性别" prop="sex" :formatter="formatSex" width="100"></el-table-column>
       <el-table-column label="年龄" prop="age" width="100"></el-table-column>
@@ -30,7 +30,7 @@
     </el-table>
     <el-col :span="24" class="toolbar">
       <el-button type="danger" :disabled="sels.length===0" @click="batchRemove">批量删除</el-button>
-      <el-pagination layout="prev,pager,next" background :total="total" :page-size="5" :current-page="page" @current-change="handleCurrentChange" style="float:right;"></el-pagination>
+      <el-pagination layout="prev,pager,next" background :total="total" :page-size="15" :current-page="page" @current-change="handleCurrentChange" style="float:right;"></el-pagination>
     </el-col>
 
     <el-dialog :visible.sync="editFormVisible"  title="编辑" :close-on-click-modal="false">
@@ -119,6 +119,7 @@
     mounted() {
       this.getUsers()
       this.user = JSON.parse(sessionStorage.getItem('user')) 
+      console.log(this.user)
     },
     methods: {
       formatSex(row) {
@@ -167,22 +168,27 @@
               return
             }
             this.listLoading = true
-            let param = {id: row.id}
+            let param = {accessToken: this.user.accessToken, id: row.id}
             removeUser(param).then((res) => {
+              this.listLoading = false
               if(res.success) {
-                this.listLoading = false
                 this.$message({
-                  message: '删除成功',
+                  message: res.msg,
                   type: 'success'
                 })
                 this.getUsers()
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: res.msg
+                })
               }
             })
           }).catch((e) => {
             this.listLoading = false
             this.$message({
               message: e,
-              type: 'danger'
+              type: 'error'
             })
           })
       },
@@ -192,15 +198,20 @@
           type: 'warning'
         }).then(() => {
           this.listLoading = true
-          let param = {ids: ids}
+          let param = {accessToken: this.user.accessToken, ids: ids}
           batchRemove(param).then((res) => {
+            this.listLoading = false
             if(res.success) {
-              this.listLoading = false
               this.$message({
-                message: '删除成功',
+                message: res.msg,
                 type: 'success'
               })
               this.getUsers()              
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.msg
+              })
             }
           })
         }).catch((e) => {
@@ -221,18 +232,22 @@
               this.addLoading= true
               let param = Object.assign({}, this.addForm)
               param.birth = formatDate(param.birth)
-              console.log(param)
               addUser(param).then((data) => {
-                if(data.success) {
-                  this.addLoading = false
+                this.addLoading = false
+                if(!data.success) {
                   this.$message({
-                    type: 'success',
-                    message: '提交成功'
+                    type: 'error',
+                    message: data.msg
                   })
-                  this.$refs.addForm.resetFields()
-                  this.addFormVisible = false
-                  this.getUsers()
+                  return
                 }
+                this.$message({
+                  type: 'success',
+                  message: data.msg
+                })
+                this.$refs.addForm.resetFields()
+                this.addFormVisible = false
+                this.getUsers()
               })
             }).catch((e) => {
               this.addLoading = false
@@ -253,18 +268,22 @@
               this.editLoading = true
               let param = Object.assign({}, this.editForm)
               param.birth = formatDate(param.birth)
-              console.log(param)
               editUser(param).then((data) => {
-                if(data.success) {
-                  this.editLoading = false
+                this.editLoading = false
+                 if(!data.success) {
                   this.$message({
-                    type: 'success',
-                    message: '提交成功'
+                    type: 'error',
+                    message: data.msg
                   })
-                  this.$refs.editForm.resetFields()
-                  this.editFormVisible = false
-                  this.getUsers()
+                  return
                 }
+                this.$message({
+                  type: 'success',
+                  message: '提交成功'
+                })
+                this.$refs.editForm.resetFields()
+                this.editFormVisible = false
+                this.getUsers()
               })
             }).catch(e => {
               this.editLoading = false

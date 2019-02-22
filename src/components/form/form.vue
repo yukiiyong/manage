@@ -26,7 +26,7 @@
   </section>
 </template>
 <script type="text/ecmascript-6" >
-  import {editUser} from 'api/request'
+  import {addUser} from 'api/request'
   import {formatDate} from 'util/util'
   export default {
     data() {
@@ -54,14 +54,19 @@
               this.submitLoading = true
               let param = Object.assign({}, this.form)
               param.birth = formatDate(param.birth)
-              editUser(param).then(res => {
+              addUser(param).then(res => {
+                this.submitLoading = false
                 if(res.success) {
-                  this.submitLoading = false
                   this.$message({
                     type: 'success',
-                    message: '信息修改成功'
+                    message: res.msg
                   })
                   this.$refs.form.resetFields()
+                }else {
+                  this.$message({
+                    type: 'error',
+                    message: res.msg
+                  })
                 }
               })
             }).catch(e => {
