@@ -1,0 +1,108 @@
+@charset "utf-8";
+@import "./variable";
+@mixin font-color($color) {
+  color: $color;
+  [data-theme="theme1"] & {
+    color: $font-color-theme1;
+  }
+  [data-theme="theme2"] & {
+    color: $font-color-theme2;
+  }
+  [data-theme="theme3"] & {
+    color: $font-color-theme3;
+  }
+  [data-theme="theme4"] & {
+    color: $font-color-theme4;
+  }
+  [data-theme="theme5"] & {
+    color: $font-color-theme5;
+  }
+}
+@mixin bg_color($color: #20a0ff) {
+  background-color: $color;
+  [data-theme="theme1"] & {
+    background-color: $background-color-theme1;
+  }
+  [data-theme="theme2"] & {
+    background-color: $background-color-theme2;
+  }
+  [data-theme="theme3"] & {
+    background-color: $background-color-theme3 !important;
+  }
+  [data-theme="theme4"] & {
+    background-color: $background-color-theme4;
+  }
+  [data-theme="theme5"] & {
+    background-color: $background-color-theme5;
+  }
+
+}
+@mixin primary_color($color: $background-color-theme1) {
+  $--color-primary: $color;
+  [data-theme="theme1"] & {
+    $--color-primary: $background-color-theme1;
+  }
+  [data-theme="theme2"] & {
+    $--color-primary: $background-color-theme2;
+  }
+  [data-theme="theme3"] & {
+    $--color-primary: $background-color-theme3;
+  }
+  [data-theme="theme4"] & {
+    $--color-primary: $background-color-theme4;
+  }
+  [data-theme="theme5"] & {
+    $--color-primary: $background-color-theme5;
+  }
+
+}
+//弹性盒子属性
+%flexbox {
+  display: inline-flex;display: -webkit-flex;display: flex;
+}
+//弹性盒子比例
+@mixin flex($num: 1) {
+  -webkit-box-flex: $num;-moz-box-flex: $num;-webkit-flex: $num;-ms-flex: $num;flex: $num;
+}
+@mixin overflow($num: 1, $fontSize: 0, $lineHeight: 1.5) {
+  display:-webkit-box; -webkit-line-clamp: $num; overflow: hidden;
+  -webkit-box-orient: vertical;
+  @if $fontSize !=0 and $lineHeight {
+    line-height: $lineHeight;
+    @if $lineHeight < 1.2 {
+      line-height: 1.2;
+    }
+    height: $num * $fontSize * $lineHeight;
+  }
+}
+//transition兼容写法
+@mixin transition($content: all 0.2s) {
+  -moz-transition: $content;
+  -webkit-transition: $content;
+  -o-transition: $content;
+  transition: $content;
+}
+//translateX兼容写法
+@mixin translateX($num: -50%) {
+  -ms-transform: translateX($num);
+  -webkit-transform: translateX($num);
+  -moz-transform: translateX($num);
+  -o-transform: translateX($num);
+  transform: translateX($num);
+}
+//translateY兼容写法
+@mixin translateY($num: -50%) {
+  -ms-transform: translateY($num);
+  -webkit-transform: translateY($num);
+  -moz-transform: translateY($num);
+  -o-transform: translateY($num);
+  transform: translateY($num);
+}
+//rotate兼容写法
+@mixin rotate($deg: 90deg) {
+  -ms-transform: rotate($deg);
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  transform: rotate($deg);
+}

@@ -13,7 +13,6 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    // vendors: ['font-awesome-loader'],
     app: './src/main.js'
   },
   output: {
@@ -24,9 +23,10 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json','.scss'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
+      'styles': resolve('src/styles'),
       '@': resolve('src'),
       'components': resolve('src/components'),
       'api': resolve('src/api'),
@@ -70,7 +70,7 @@ module.exports = {
         }
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         loaders: ['style','css','sass']
       }
     ]

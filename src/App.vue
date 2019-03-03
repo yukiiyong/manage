@@ -6,11 +6,19 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    let themeValue = localStorage.getItem('themeValue')
+    if(themeValue) {
+      window.document.documentElement.setAttribute('data-theme', themeValue)
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import 'styles/mixin';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,6 +27,7 @@ export default {
   /*text-align: center;*/
   color: #2c3e50;
   margin-top: 60px;
+  @include primary_color();
 }
 .toolbar {
   background: #f2f2f2;

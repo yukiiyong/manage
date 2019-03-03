@@ -58,8 +58,8 @@ export default new Router({
       iconCls: 'fa fa-id-card-o',
       component: Main,
       children: [
-        // { path: '/table', name: 'table', component: Table},
-        {path: '/form', name: 'form', component: Form}
+        {path: '/form', name: '新增用户', component: Form},
+        { path: '/upload', name: '上传表格', component: () => import('components/uploadExcel/uploadExcel')}
       ]
     },
     {
@@ -69,8 +69,18 @@ export default new Router({
       component: Main,
       children: [
         {
-          path: '/chart', name: 'chart', component: Chart
+          path: '/chart', name: '图表', component: Chart
         }
+      ]
+    },
+    {
+      path: '/',
+      name: 'setting',
+      iconCls: 'fa fa-gear',
+      component: Main,
+      children: [
+        {path: '/setting', name: '设置', component:() => import('components/setting/setting')},
+        {path: '/mdInput', name: 'input',component: () => import('components/setting/inputdemo')}
       ]
     },
     {

@@ -11,7 +11,12 @@
         <el-form-item>
           <el-button type="primary" @click="handleAdd" >新增</el-button>
         </el-form-item>
+        <el-button type="primary" @click="showExportExcelBar =!showExportExcelBar">{{this.showExportExcelBar? '取消导出' : '导出excel'}}</el-button>
       </el-form>
+    </el-col>
+    <el-col :span="24" v-if="showExportExcelBar" style="margin: 10px 0;">
+      <ExportExcelBar @filenameChange="filenameChange" @autoWidthChange="autoWidthChange" @bookTypeChange="bookTypeChange" />
+      <el-button @click="handleDownload" >下载</el-button>
     </el-col>
     <el-table :data="users" v-loading="listLoading" @selection-change="handleSelsChange" style="width: 100%;">
       <el-table-column type="selection" width="55"></el-table-column>
@@ -91,6 +96,7 @@
 <script type="text/ecmascript-6">
   import {getUserList, removeUser, batchRemove, editUser, addUser} from 'api/request'
   import {formatDate} from 'util/util'
+  import ExportExcelBar from 'components/exportExcelBar/exportExcelBar'
 
   const formRules = {name: [{required: true,message: '请输入姓名',trigger: 'blur'}]}
   const addForm= { name: '',  sex: -1, age: 0,  birth: '', addr: ''  }
@@ -113,7 +119,15 @@
         editFormVisible: false,
         editForm: editForm,
         editFormRules: formRules,
-        editLoading: false
+        editLoading: false,
+        showExportExcelBar: false,
+
+        //exportexcelprop
+        bookType: 'xlsx',
+        autoWidth: true,
+        filename: '',
+        downloadLoading: false,
+        exportBtnTxt: '导出excel'
       }
     },
     mounted() {
@@ -294,7 +308,39 @@
             })
           }
         })
+      },
+      handleDownload() {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['姓名','性别','年龄','生日','地址']
+          const filterVal = ['name','sex','age','birth','addr']
+          const list = this.users
+          const data = this.formatJson(list, filterVal)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: this.filename,
+            autoWidth: this.autoWidth,
+            bookType: this.bookType
+          })
+          this.downloadLoading = false
+        })
+      },
+      formatJson(jsonData,filterVal) {
+        return jsonData.map(v => filterVal.map(j => v[j]))
+      },
+      bookTypeChange(val) {
+        this.bookType = val
+      },
+      autoWidthChange(val) {
+        this.autoWidth = val
+      },
+      filenameChange(val) {
+        this.filename = val
       }
+  },
+  components: {
+    ExportExcelBar
   }
 }
 </script>

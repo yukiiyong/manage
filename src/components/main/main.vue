@@ -17,7 +17,7 @@
         <el-dropdown trigger="hover" >
           <span class="el-dropdown-link userinfo-inner"><img :src="user.userAvatar">{{user.username}},欢迎您</span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item >设置</el-dropdown-item>
+            <el-dropdown-item @click.native="setting">设置</el-dropdown-item>
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -27,12 +27,12 @@
       <aside class="menu" :class="collapsed? 'menu-collapse': ''" >
         <el-menu :default-active="$route.path" class="menu-class" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="collapsed" router unique-opened>
          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-           <el-submenu :index="index+ ''" v-if="!item.leaf" >
+           <el-submenu :index="index+ ''" v-if="item.children.length > 1" >
              <template slot="title"><i class="menu-icon" :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}</el-menu-item> 
            </el-submenu>
-           <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path" >
-            <i class="menu-icon" :class="item.children[0].iconCls"></i>
+           <el-menu-item v-if="item.children.length===1" :index="item.children[0].path" >
+            <i class="menu-icon" :class="item.iconCls"></i>
             <span slot="title">{{item.children[0].name}}</span>
           </el-menu-item>
          </template>
@@ -93,11 +93,17 @@
           }).catch((e) => {
             console.log('logout err'+e)
           })
+      },
+      setting() {
+        this.$router.push('/setting')
       }
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+  @import 'styles/variable';
+  @import "styles/mixin";
+
   .container {
     position: absolute;
     top:0;
@@ -108,7 +114,7 @@
   .header {
     height: 60px;
     line-height: 60px;
-    background-color: #20a0ff;
+    @include bg_color($color-primary);
     color: #fff;
     overflow: hidden;
   }
