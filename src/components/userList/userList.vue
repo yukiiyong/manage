@@ -96,6 +96,7 @@
 <script type="text/ecmascript-6">
   import {getUserList, removeUser, batchRemove, editUser, addUser} from 'api/request'
   import {formatDate} from 'util/util'
+  import {setStore, getStore} from '@/util/store'
   import ExportExcelBar from 'components/exportExcelBar/exportExcelBar'
 
   const formRules = {name: [{required: true,message: '请输入姓名',trigger: 'blur'}]}
@@ -132,8 +133,8 @@
     },
     mounted() {
       this.getUsers()
-      this.user = JSON.parse(sessionStorage.getItem('user')) 
-      console.log(this.user)
+      this.user = getStore({name: 'user'})
+      // console.log(this.user)
     },
     methods: {
       formatSex(row) {
@@ -174,7 +175,7 @@
       handleDel(index,row) {
         this.$confirm('确认删除该项记录吗？','提示',{type: 'warning'})
           .then(() => {
-            if(this.user.role !== '超级管理员') {
+            if(this.user.roles.indexOf('admin') === -1) {
               this.$message({
                 type: 'danger',
                 message: '权限不足'

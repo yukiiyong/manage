@@ -14,7 +14,8 @@ const User = {
   username: Mock.Random.cname(),
   userAvatar: Mock.Random.image('300x250',Mock.Random.color()),
   sex: Mock.Random.integer(0, 1),
-  'role|1': ['管理员','超级管理员']
+  roles: ['user']
+  // 'roles|1': ['user','admin']
 }
 const UserList = []
 

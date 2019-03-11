@@ -19,6 +19,8 @@
   </section>                                 
 </template>
 <script type="text/ecmascript-6" >
+  import {mapActions} from 'vuex'
+  import {setStore, getStore} from '@/util/store'
   import config from 'api/config'
   import {requestLogin} from 'api/request'
   export default {
@@ -51,7 +53,7 @@
       }
     },
     mounted() {
-      let user = JSON.parse(localStorage.getItem('user'))
+      let user = getStore({name:'user'})
       if(user) {
         this.loginForm = {
           userName: user.username,
@@ -64,24 +66,15 @@
         this.$refs.loginForm.validate((valid) => {
           if(valid) {
             let loginParam = {username: this.loginForm.userName, password: this.loginForm.pwd}
-            let role
-            let username = loginParam.username
-            if(loginParam.username === 'admin') {
-              role="超级管理员"
-            } else {
-              role="管理员"
-            }
-            requestLogin(loginParam).then(data => {                
+ 
+            this.loginAction(loginParam).then(data => {                
               if(data && data.success) {  
-                console.log(data)      
+                // console.log(data)      
                 let user = data.data
-                user.username = username
-                user.role = role
                 user.password = loginParam.password
-                sessionStorage.setItem('user',JSON.stringify(user))
-                if(this.remenbered) {
-                  localStorage.setItem('user', JSON.stringify(user))
-                }
+
+                setStore({name: 'user', content: user, type: this.remenbered})
+
                 this.$message({
                   type: 'success',
                   message: data.msg
@@ -96,7 +89,10 @@
             })
           }
         })
-      }
+      },
+      ...mapActions([
+        'loginAction'
+      ])
     }
   }
 </script>

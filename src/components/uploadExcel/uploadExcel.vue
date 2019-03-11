@@ -57,7 +57,7 @@
         if(!rawFile) return 
         this.upload(rawFile)
       },
-      beforeUpload(rawFile) {
+      beforeUpload(rawFile) {  //校验文件大小
         const isLt1M = (rawFile.size / 1024 / 1024) < 1
         if(isLt1M) {
           return true

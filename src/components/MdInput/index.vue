@@ -121,7 +121,7 @@
   $color-red: #F44336;
   $color-black: black;
   //Base Class
-  //input-bar 利用&:before 和 &:after 来进行absolute定位，height:1px，wodth:0,左边left:50%,右边right:50%,起点设为中间，active时设宽度
+  //input-bar 利用&:before 和 &:after 来进行absolute定位，height:1px，width:0,左边left:50%,右边right:50%,起点设为中间，active时设宽度
   %base-bar-pseudo {
     position: absolute;
     content: '';

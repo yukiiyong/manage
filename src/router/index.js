@@ -34,14 +34,8 @@ const Chart = (resolve) => {
     resolve(module)
   })
 }
-export default new Router({
-  routes: [
-    // {
-    //   path: '/',
-    //   name: 'Main',
-    //   component: Main
-    // },
-    {
+export const constrantRouterMap = [
+  {
       path: '/',
       name: '数据管理',
       iconCls: 'el-icon-message',
@@ -52,17 +46,7 @@ export default new Router({
         {path: '/admin', name: '管理员列表', component: AdminList}
       ]
     },
-    {
-      path: '/',
-      name: '数据修改',
-      iconCls: 'fa fa-id-card-o',
-      component: Main,
-      children: [
-        {path: '/form', name: '新增用户', component: Form},
-        { path: '/upload', name: '上传表格', component: () => import('components/uploadExcel/uploadExcel')}
-      ]
-    },
-    {
+   {
       path: '/',
       name: 'chart',
       iconCls: 'fa fa-bar-chart',
@@ -75,7 +59,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'setting',
+      name: '设置',
       iconCls: 'fa fa-gear',
       component: Main,
       children: [
@@ -89,4 +73,32 @@ export default new Router({
       hidden: true
     }
   ]
+export default new Router({
+  routes: constrantRouterMap
 })
+
+export const asyncRouterMap = [
+  {
+    path: '/',
+    name: '数据修改',
+    iconCls: 'fa fa-id-card-o',
+    component: Main,
+    meta: {
+      roles: ['admin']
+    },
+    children: [
+      {path: '/form', name: '新增用户', component: Form,meta: {roles: ['admin']}},
+      { path: '/upload', name: '上传表格', component: () => import('components/uploadExcel/uploadExcel'),meta: {roles: ['admin']}}
+    ]
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('components/error/error'),
+    hidden: true
+  }
+]

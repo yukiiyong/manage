@@ -31,7 +31,7 @@
              <template slot="title"><i class="menu-icon" :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}</el-menu-item> 
            </el-submenu>
-           <el-menu-item v-if="item.children.length===1" :index="item.children[0].path" >
+           <el-menu-item v-if="item.children && item.children.length===1" :index="item.children[0].path" >
             <i class="menu-icon" :class="item.iconCls"></i>
             <span slot="title">{{item.children[0].name}}</span>
           </el-menu-item>
@@ -56,6 +56,8 @@
 </template>
 
 <script type="text/ecmascript-6" >
+import {mapGetters, mapActions} from 'vuex' 
+import {getStore} from '@/util/store'
   export default {
     data() {
       return {
@@ -65,11 +67,13 @@
       }
     },
     mounted() {
-      let user = JSON.parse(sessionStorage.getItem('user'))
-      console.log(user)
+      let user = getStore({name: 'user'})
+
       if(user && user.accessToken) {
         this.user = Object.assign({}, user)
       }
+    },
+    computed: {
     },
     methods: {
       collapse() {
@@ -77,7 +81,6 @@
       },
       handleOpen() {
         //console.log('menu-open')
-        console.log(this.$router)
       },
       handleClose() {
         //console.log('menu-Close')
@@ -88,15 +91,19 @@
       logout() {
         this.$confirm('确认退出？', '提示', {})
           .then(() => {
-            sessionStorage.removeItem('user')
-            this.$router.push('/login')
+            this.FDLogout().then(() => {
+              this.$router.push('/login')            
+            })
           }).catch((e) => {
             console.log('logout err'+e)
           })
       },
       setting() {
         this.$router.push('/setting')
-      }
+      },
+      ...mapActions([
+        'FDLogout'
+      ])
     }
   }
 </script>

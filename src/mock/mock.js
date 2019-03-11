@@ -26,7 +26,7 @@ export default {
             if(u.username === username && u.password === password) {
               _User.username = username
               if(username === 'admin') {
-                _User.role = '超级管理员'
+                _User.roles = ['admin']
               }
               return true
             }

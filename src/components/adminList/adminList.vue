@@ -14,7 +14,7 @@
       <el-table-column style="width:20%" prop="name" label="姓名" sortable></el-table-column>
       <el-table-column style="width:25%" prop="registime" label="注册时间" sortable></el-table-column>
       <el-table-column style="width:30%" prop="addr" label="地址" sortable></el-table-column>
-      <el-table-column style="width:25%" prop="role" label="权限" ></el-table-column>
+      <el-table-column style="width:25%" prop="roles" label="权限" ></el-table-column>
     </el-table>
     <el-col :span="24" class="toolbar" >
       <el-pagination layout="prev,pager,next" background :page-size="15" :total="total" :current-page="page" @current-change="handleCurrentChange" ></el-pagination>
