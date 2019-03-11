@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
   if(!user.accessToken) {
     next({path: '/login'})
   } else {
-      // console.log(store.getters.roles)
+      console.log(store.getters.roles)
     if(store.getters.roles.length === 0) { 
       store.dispatch('getInfo').then(data => {
         let roles = data.roles

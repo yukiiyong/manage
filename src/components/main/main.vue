@@ -68,7 +68,7 @@ import {getStore} from '@/util/store'
     },
     mounted() {
       let user = getStore({name: 'user'})
-
+      console.log(user)
       if(user && user.accessToken) {
         this.user = Object.assign({}, user)
       }

@@ -70,7 +70,7 @@
               for(let i = 0; i< 12; i++) {
                 list.push((Math.random()*100).toFixed(0))
               }
-              console.log(list)
+              // console.log(list)
               return list
             }()
           }]

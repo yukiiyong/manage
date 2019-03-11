@@ -21,13 +21,14 @@ export default {
       return new Promise((resolve, reject) => {
         let user = null
         setTimeout(() => {
-          let _User = User
+          let _User = Object.assign({}, User)
+          // console.log(_User)
           let hasUser = LoginUsers.some(u => {
             if(u.username === username && u.password === password) {
               _User.username = username
               if(username === 'admin') {
                 _User.roles = ['admin']
-              }
+              } 
               return true
             }
           })
