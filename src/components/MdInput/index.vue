@@ -85,6 +85,8 @@
         this.$emit('change',value)
       },
       handleFocus(e) {
+        //利用标志位把最外层元素(container)添加样式
+        //例如this.focus=true => 添加material--raised 和material--active
         this.focus = true
         this.$emit('focus',e)
         if(this.placeholder && this.placeholder !== '') {
@@ -121,7 +123,8 @@
   $color-red: #F44336;
   $color-black: black;
   //Base Class
-  //input-bar 利用&:before 和 &:after 来进行absolute定位，height:1px，width:0,左边left:50%,右边right:50%,起点设为中间，active时设宽度
+  //input-bar 利用&:before 和 &:after 来进行absolute定位，height:1px，width:0,
+  //左边left:50%,右边right:50%,起点设为中间，active时设宽度
   %base-bar-pseudo {
     position: absolute;
     content: '';

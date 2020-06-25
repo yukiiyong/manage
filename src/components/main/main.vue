@@ -27,11 +27,11 @@
       <aside class="menu" :class="collapsed? 'menu-collapse': ''" >
         <el-menu :default-active="$route.path" class="menu-class" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="collapsed" router unique-opened>
          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-           <el-submenu :index="index+ ''" v-if="item.children.length > 1" >
+           <el-submenu :index="index+ ''" v-if="item.children && item.children.length > 1" >
              <template slot="title"><i class="menu-icon" :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
-             <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}</el-menu-item> 
+             <el-menu-item v-for="child in item.children" :index="resolvePath(item.path, child.path)" :key="resolvePath(item.path, child.path)" v-if="!child.hidden">{{child.name}}</el-menu-item> 
            </el-submenu>
-           <el-menu-item v-if="item.children && item.children.length===1" :index="item.children[0].path" >
+           <el-menu-item v-if="item.children && item.children.length===1" :index="resolvePath(item.path,item.children[0].path)" >
             <i class="menu-icon" :class="item.iconCls"></i>
             <span slot="title">{{item.children[0].name}}</span>
           </el-menu-item>
@@ -39,15 +39,15 @@
         </el-menu>
       </aside>
       <section class="content-container">
-        <el-col :span="24" >
+        <el-col :span="24" class="breadcrumb-wrapper">
           <el-breadcrumb separator="/" class="breadcrumb-inner">
-          <el-breadcrumb-item :to="{path: '/'}">首页</el-breadcrumb-item>
-          <el-breadcrumb-item v-for="(item,index) in $route.matched" :key="item.path" :to="{path: item.path}">{{item.name}}</el-breadcrumb-item>
-        </el-breadcrumb>
+            <el-breadcrumb-item :to="{path: '/'}">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(item,index) in $route.matched" :key="item.path" :to="{path: item.path}">{{item.name}}</el-breadcrumb-item>
+          </el-breadcrumb>
         </el-col>
         <el-col :span="24" class="content-wrapper">
-          <transition name="fade" mode="in-out">
-            <router-view></router-view>
+          <transition name="fade" mode="out-in">
+            <router-view :key="key"></router-view>
           </transition>
         </el-col>
       </section>
@@ -66,18 +66,23 @@ import {getStore} from '@/util/store'
         user: {}
       }
     },
+    computed: {
+        key() {
+            return this.$route.path
+        }
+    },
     mounted() {
       let user = getStore({name: 'user'})
-      console.log(user)
+      
       if(user && user.accessToken) {
         this.user = Object.assign({}, user)
       }
     },
-    computed: {
-    },
     methods: {
       collapse() {
         this.collapsed = !this.collapsed
+        console.log(this.$route)
+        console.log(this.$router)
       },
       handleOpen() {
         //console.log('menu-open')
@@ -99,18 +104,30 @@ import {getStore} from '@/util/store'
           })
       },
       setting() {
-        this.$router.push('/setting')
+        this.$router.push('/setting/index')
       },
+			resolvePath(parentPath, childPath) {
+				//由于router.$options.routes 里面的children.path是子路由的path，并不包含父路由的path，所以要处理一下
+				let resolvedPath = ''
+				if(parentPath == '/') {
+					resolvedPath = parentPath + childPath
+				} else {
+					resolvedPath = parentPath+'/'+childPath
+				}
+				// console.log(resolvedPath)
+				return resolvedPath
+			},
       ...mapActions([
         'FDLogout'
       ])
-    }
+    },
   }
 </script>
 <style lang="scss" scoped>
   @import 'styles/variable';
   @import "styles/mixin";
-
+  @import "styles/transition";
+  
   .container {
     position: absolute;
     top:0;
@@ -187,6 +204,12 @@ import {getStore} from '@/util/store'
     flex: 1;
     padding: 20px;
     overflow-y: scroll; 
+  }
+  .content-container::-webkit-scrollbar {
+    display: none;
+  }
+  .breadcrumb-wrapper {
+      border-bottom: 1px solid #eee;
   }
   .breadcrumb-inner {
     height: 30px;

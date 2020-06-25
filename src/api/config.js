@@ -17,5 +17,20 @@ export const api = {
   removeUser: 'user/remove',
   batchRemove: 'user/batchremove',
   editUser: 'user/edit',
-  addUser: 'user/add'
+  addUser: 'user/add',
+  goodsList: 'goods/list',
+  createStorage: 'storage/create',
+  orderList: 'order/list',
+  orderDetail: 'order/detail',
+  couponList: 'coupon/list',
+  couponDetail: 'coupon/detail',
+  couponRead: 'coupon/read',
+  updateCoupon: 'coupon/update',
+  createCoupon: 'coupon/create',
+  getSecList: 'sec/list',
+  updateSecStatus: 'sec/update/status',
+  createSec: 'sec/create',
+  updateSec: 'sec/update',
+  updateOrderSetting: 'orderSetting/update',
+  getOrderSetting: 'orderSetting'
 }
