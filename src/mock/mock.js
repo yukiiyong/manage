@@ -201,13 +201,15 @@ export default {
           return false
 				} else if(submitTime && submitTime !== '' && order.submitTime != submitTime) {
           return false
-				} else if(orderCategory && order.orderCategory !== orderCategory) {
+				} else if(orderCategory && order.orderCategory != orderCategory) {
 					return false
-				} else if(orderSource && order.orderSource.indexof(orderSource) === -1) {
+				} else if(orderSource && order.orderSource != orderSource) {
 					return false
-				}
+        } else if(orderStatus && order.orderStatus != orderStatus) {
+          return false
+        }
 				return true
-			})
+      })
       let orderListResult = orderList.slice((page - 1) * 15, page * 15)
 			return new Promise((resolve, reject) => {
 				resolve([200, {code: 200, success: true, list: orderListResult, total:orderList.length}])
@@ -215,8 +217,16 @@ export default {
     })
     mock.onGet('/order/detail').reply(config => {
       let {id} = config
+      let singleOrder = _OrderList.filter(order => {
+        if(id && order.id == id) {
+          return true
+        }
+        return false
+      })
+      let orderDetail =  _OrderDetail
+      orderDetail.order = Object.assign(orderDetail.order, singleOrder[0])
       return new Promise((resolve, reject) => {
-        resolve([200, {code: 200, success: true, data: _OrderDetail}])
+        resolve([200, {code: 200, success: true, data: orderDetail}])
       })
     })
     mock.onGet('/coupon/list').reply(config => {

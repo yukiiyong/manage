@@ -6,6 +6,7 @@ let OrderDetail = {}
 
 for (let i = 0; i < 25; i++) {
 	OrderList.push(Mock.mock({
+		id: Mock.Random.id(),
 		orderSn: Math.abs(Mock.Random.integer()),
 		userName: Mock.Random.cname(),
 		'price|0-100': 1,
@@ -30,16 +31,16 @@ OrderDetail = Mock.mock({
 		'orderStatus|1-5': 1,
 		address: '北京市市辖区东城区 世纪大道111号',
 		message: Mock.Random.cparagraph(),
-		totalPrice: 23.0, //总金额
-		goodsPrice: 21.00, //商品金额
-		deliveryPrice: 2.00, //快递费用
+		totalPrice: 220.0, //总金额
+		goodsPrice: 210.00, //商品金额
+		deliveryPrice: 10.00, //快递费用
 		integralPrice: 0.00, //积分减免
 		deliveryCompany: '顺丰快递', //快递公司
 		deliverySn: '201707196398345', //快递单号
 		deliveryTime: "2018-10-16 15:43:41", //发货时间
-		refundAmount: 0, //退款金额
+		refundAmount: 5, //退款金额
 		refundType: 0, //退款类型
-		refundContent: '', //退款备注
+		refundContent: '不想要了', //退款备注
 		refundTime: null, //退款时间
 		confirmTime: null, //确认收货时间
 	},

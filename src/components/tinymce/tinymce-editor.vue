@@ -48,8 +48,8 @@
 		},
 		methods: {
 			handleTinymceClick() {
-                //TO DO
-                console.log('tinymce click')
+				//TO DO
+				console.log('tinymce click')
 			}
 		},
 		mounted() {
