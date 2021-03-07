@@ -112,10 +112,12 @@ export default {
 				name: nameParam,
 				page: this.page
 			}
+			let loadings = this.$loading()
 			this.listLoading = true
 			getGoodsList(param).then(res => {
 				// console.log(res)
 				if(res.success) {
+					loadings.close()
 					this.listLoading = false
 					this.total = res.total
 					this.goods = res.goodsList

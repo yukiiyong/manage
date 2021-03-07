@@ -77,6 +77,7 @@ import {getStore} from '@/util/store'
       if(user && user.accessToken) {
         this.user = Object.assign({}, user)
       }
+      throw Error('aaa')
     },
     methods: {
       collapse() {

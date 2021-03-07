@@ -10,7 +10,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="users" v-loading="listLoading" style="width: 100%;">
+    <el-table :data="users" v-loadings="true" v-loading="listLoading" style="width: 100%;">
       <el-table-column style="width:20%" prop="name" label="姓名" sortable></el-table-column>
       <el-table-column style="width:25%" prop="registime" label="注册时间" sortable></el-table-column>
       <el-table-column style="width:30%" prop="addr" label="地址" sortable></el-table-column>
@@ -57,6 +57,8 @@
           page: this.page
         }
         this.listLoading = true
+        // this.setLoading({save: true})
+        // console.log(this.$loading)
         getAdminList(param).then(res => {
           if(res.success) {
             this.listLoading = false

@@ -57,7 +57,6 @@ export default {
     //获取用户列表
     mock.onGet('/user/list').reply(config => {
       let {name, page} = config
-
       let userList = _UserList.filter(user => {
         if(name && user.name.indexOf(name) === -1) return false
           return true
@@ -378,6 +377,9 @@ export default {
       return new Promise((resolve, reject) => {
         resolve([200, {success: true, code: 200,data: _OrderSetting}])
       })
+    })
+    mock.onPost('/log').reply(config => {
+      console.log(config)
     })
   }
 }

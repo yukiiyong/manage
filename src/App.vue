@@ -5,12 +5,19 @@
 </template>
 
 <script>
+import {getPerformance, getResource} from 'components/monitor/monitor'
 export default {
   name: 'App',
   mounted() {
     let themeValue = localStorage.getItem('themeValue')
     if(themeValue) {
       window.document.documentElement.setAttribute('data-theme', themeValue)
+    }
+  },
+  watch: {
+    $route(to, from) {
+        console.log(getPerformance())
+        console.log(getResource())
     }
   }
 }

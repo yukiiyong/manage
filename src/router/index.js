@@ -127,6 +127,7 @@ export const asyncRouterMap = [
       {path: 'mdInput', name: 'input',component: () => import('components/setting/inputdemo'), hidden: true},
       {path: 'user', name: '用户列表', component: UserList},
       {path: 'admin', name: '管理员列表', component: AdminList}
+      // {path: 'loading', name: 'loading', component: () => import('components/loading/loading.vue')}
     ]
   },
   {

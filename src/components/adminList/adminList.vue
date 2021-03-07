@@ -10,7 +10,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="users" v-loading="listLoading" style="width: 100%;">
+    <el-table :data="users"  v-loadings="listLoading" style="width: 100%;">
       <el-table-column style="width:20%" prop="name" label="姓名" sortable></el-table-column>
       <el-table-column style="width:25%" prop="registime" label="注册时间" sortable></el-table-column>
       <el-table-column style="width:30%" prop="addr" label="地址" sortable></el-table-column>
@@ -22,6 +22,7 @@
   </section>
 </template>
 <script type="text/ecmascript-6">
+  import {mapActions} from 'vuex'
   import {getAdminList} from 'api/request' 
 
   export default {
@@ -56,8 +57,11 @@
           name: nameParam,
           page: this.page
         }
+        console.log(this.cancelLoading())
+        this.setLoading({save: true})
         this.listLoading = true
         getAdminList(param).then(res => {
+          // console.log(this.$store.state.loading.save)
           if(res.success) {
             this.listLoading = false
             this.total = res.total
@@ -74,7 +78,11 @@
       handleCurrentChange(val) {
         this.page = val
         this.getAdminList()
-      }
+      },
+      ...mapActions([
+        'setLoading',
+        'cancelLoading'
+      ])
     }
   }
 </script>

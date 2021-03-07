@@ -8,7 +8,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import Mock from './mock'
-import {getStore} from '@/util/store'
+import {getStore, setStore} from '@/util/store'
+import {getPerformance, getResource} from 'components/monitor/monitor.js'
+import loading from 'components/loading/loading.js'
 Mock.bootstrap()
 
 Vue.use(ElementUI)
@@ -51,6 +53,7 @@ router.beforeEach((to, from, next) => {
   }
   let user = getStore({name: 'user', type: true})
   let roles = user.roles || []
+
   // next()
   if(!user.accessToken) {
     next({path: '/login'})
@@ -74,7 +77,24 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
+Vue.config.errorHandler = function(err,vm,info) {
+  let errors = getStore({name:'error', type: true})
+  let errInfo = {
+    type: err.name,
+    msg: err.message,
+    time: new Date().getTime()
+  }
+  if(!errors instanceof Array || errors.length === 0) {
+    errors = []
+  } 
+  errors.push(errInfo)
+  let store = {
+    name: 'error',
+    type: true,
+    content: errors
+  }
+  setStore(store)
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
